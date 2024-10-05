@@ -38,7 +38,13 @@ class Account {
 
 
 	public:
-		std::map<int, std::list<Account>> find_account_iter(int id);
+		/// <summary>
+		/// Finds an account by account ID and returns an iterator to the account.
+		/// </summary>
+		/// <param name="id">Account ID</param>
+		/// <returns>An iterator to the account</returns>
+		std::map<int, std::list<Account>>::iterator find_account_iter(int id);
+
 		/// <summary>
 		/// Finds an account by account ID.
 		/// </summary>
@@ -55,6 +61,12 @@ class Account {
 		/// Gets all accounts from the static accounts map.
 		/// </summary>
 		void get_accounts()const;
+
+		/// <summary>
+		/// Getter for the static accounts map. Accesses private static map variable.
+		/// </summary>
+		/// <returns>Accounts map</returns>
+		std::map<int, std::list<Account>>& get_accounts_map();
 
 		/// <summary>
 		/// Constructor used to initialize the account ID and account balance.

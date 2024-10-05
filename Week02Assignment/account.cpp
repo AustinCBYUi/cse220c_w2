@@ -15,7 +15,12 @@ Account::Account() : account_id(next_id++), account_balance(0.0f) {
 }
 
 
+
 //Methods begin.
+std::map<int, std::list<Account>>::iterator Account::find_account_iter(int id) {
+	return accounts.find(id);
+}
+
 void Account::find_account(int account_id) const {
 	auto iter = accounts.find(account_id);
 	if (iter != accounts.end()) {
@@ -51,6 +56,10 @@ void Account::get_accounts()const {
 		}
 	}
 	std::cout << "\n";
+}
+
+std::map<int, std::list<Account>>& Account::get_accounts_map() {
+	return accounts;
 }
 
 void Account::inputAccountInfo() {

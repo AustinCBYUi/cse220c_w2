@@ -19,7 +19,6 @@ int main()
 		std::cout << "3. Deposit\n";
 		std::cout << "4. Withdraw\n";
 		std::cout << "5. View All Accounts\n"; //Added this option to view all accounts.
-		std::cout << "6. Find Account by ID\n";
 		std::cout << "Enter your choice: ";
 		std::cin >> user_input;
 		std::cout << "\n"; //Line clear
@@ -36,31 +35,54 @@ int main()
 			std::cout << reg_new_account << std::endl;
 			break;
 		}
-		case 2:
-			//account_init.displayAccountInfo();
-			std::cout << account << std::endl;
-			break;
-		case 3:
-			float deposit_amount;
-			std::cout << "\nEnter the amount to deposit: $";
-			std::cin >> deposit_amount;
-			//account_init.add_to_account_balance(deposit_amount);
-			account += deposit_amount;
-			break;
-		case 4:
-			float withdrawal_amount;
-			std::cout << "\nEnter the amount to withdraw: $";
-			std::cin >> withdrawal_amount;
-			account -= withdrawal_amount;
-			break;
-		case 5:
-			account.get_accounts();
-			break;
-		case 6: {
+		case 2: {
 			int account_id;
 			std::cout << "\nEnter the account ID: ";
 			std::cin >> account_id;
 			account.find_account(account_id);
+			break;
+		}
+		case 3: {
+			int account_id;
+			std::cout << "\nEnter an Account ID to deposit into: ";
+			std::cin >> account_id;
+
+			Account acc;
+			auto iter = acc.find_account_iter(account_id);
+			if (iter != acc.get_accounts_map().end()) {
+				Account& account = iter->second.front();
+				float deposit_amount;
+				std::cout << "Enter the amount to deposit: $";
+				std::cin >> deposit_amount;
+				account += deposit_amount;
+			}
+			else {
+				std::cout << "Account with ID " << account_id << " was not found.\n" << std::endl;
+			}
+			break;
+		}
+		case 4: {
+			int account_id;
+			std::cout << "\nEnter an Account ID to withdraw from: ";
+			std::cin >> account_id;
+
+			Account acc;
+			auto iter = acc.find_account_iter(account_id);
+			if (iter != acc.get_accounts_map().end()) {
+				Account& account = iter->second.front();
+				float withdrawal_amount;
+				std::cout << "Enter the amount to withdraw: $";
+				std::cin >> withdrawal_amount;
+				account -= withdrawal_amount;
+			}
+			else {
+				std::cout << "Account with ID " << account_id << " was not found.\n" << std::endl;
+			}
+			break;
+		}
+		case 5: {
+			Account account;
+			account.get_accounts();
 			break;
 		}
 		//End of switch statement
