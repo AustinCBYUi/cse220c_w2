@@ -50,7 +50,7 @@ int main()
 			Account acc;
 			auto iter = acc.find_account_iter(account_id);
 			if (iter != acc.get_accounts_map().end()) {
-				Account& account = iter->second.front();
+				Account& account = iter->second;
 				float deposit_amount;
 				std::cout << "Enter the amount to deposit: $";
 				std::cin >> deposit_amount;
@@ -69,7 +69,7 @@ int main()
 			Account acc;
 			auto iter = acc.find_account_iter(account_id);
 			if (iter != acc.get_accounts_map().end()) {
-				Account& account = iter->second.front();
+				Account& account = iter->second;
 				float withdrawal_amount;
 				std::cout << "Enter the amount to withdraw: $";
 				std::cin >> withdrawal_amount;

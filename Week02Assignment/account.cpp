@@ -5,29 +5,27 @@
 #include <list>
 
 //Static variables are initialized here.
-int Account::next_id = 0;
-std::map<int, std::list<Account>> Account::accounts;
+int Account::next_id = 1;
+std::map<int, Account> Account::accounts;
 
 
 //The constructor is used to initialize the account ID and account balance.
-Account::Account() : account_id(next_id++), account_balance(0.0f) {
+Account::Account() : account_id(-1), account_balance(0.0f) {
 	account_name = "";
 }
 
 
 
 //Methods begin.
-std::map<int, std::list<Account>>::iterator Account::find_account_iter(int id) {
+std::map<int, Account>::iterator Account::find_account_iter(int id) {
 	return accounts.find(id);
 }
 
 void Account::find_account(int account_id) const {
 	auto iter = accounts.find(account_id);
 	if (iter != accounts.end()) {
-		const std::list<Account>& account_list = iter->second;
-		for (const Account& acc : account_list) {
-			std::cout << "Found Account:: Account ID: " << account_id << " | Account Name: " << acc.account_name << " | Account Balance: $" << acc.account_balance << "\n" << std::endl;
-		}
+		const Account& account = iter->second;
+		std::cout << "Found Account:: Account ID: " << account_id << " | Account Name: " << account.account_name << " | Account Balance: $" << account.account_balance << "\n" << std::endl;
 	}
 	else {
 		std::cout << "Account with ID " << account_id << " was not found.\n" << std::endl;
@@ -35,10 +33,7 @@ void Account::find_account(int account_id) const {
 }
 
 void Account::add_account(const Account& account) {
-	if (accounts.find(account.account_id) == accounts.end()) {
-		accounts[account.account_id] = std::list<Account>();
-	}
-	accounts[account.account_id].push_back(account);
+	accounts[account.account_id] = account;
 }
 
 void Account::get_accounts()const {
@@ -49,20 +44,19 @@ void Account::get_accounts()const {
 
 	for (const auto& pair : accounts) {
 		const int& account_id = pair.first;
-		const std::list<Account>& account_list = pair.second;
+		const Account& account = pair.second;
 
-		for (const Account& acc : account_list) {
-			std::cout << "Account ID: " << account_id << " | Account Name: " << acc.account_name << " | Account Balance: $" << acc.account_balance << std::endl;
-		}
+		std::cout << "Account ID: " << account_id << " | Account Name: " << account.account_name << " | Account Balance: $" << account.account_balance << std::endl;
 	}
 	std::cout << "\n";
 }
 
-std::map<int, std::list<Account>>& Account::get_accounts_map() {
+std::map<int, Account>& Account::get_accounts_map() {
 	return accounts;
 }
 
 void Account::inputAccountInfo() {
+	account_id = next_id++;
 	std::cout << "Enter the name: ";
 	std::cin >> account_name;
 	std::cout << "Enter the initial balance: ";

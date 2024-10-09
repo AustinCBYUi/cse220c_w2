@@ -14,7 +14,7 @@ class Account {
 		/// <summary>
 		/// Map used to store all accounts, static map to be accessed by all initialized classes.
 		/// </summary>
-		static std::map<int, std::list<Account>> accounts;
+		static std::map<int, Account> accounts;
 
 		/// <summary>
 		/// Integer used to assign a unique account ID to each account.
@@ -43,7 +43,7 @@ class Account {
 		/// </summary>
 		/// <param name="id">Account ID</param>
 		/// <returns>An iterator to the account</returns>
-		std::map<int, std::list<Account>>::iterator find_account_iter(int id);
+		std::map<int, Account>::iterator find_account_iter(int id);
 
 		/// <summary>
 		/// Finds an account by account ID.
@@ -66,7 +66,7 @@ class Account {
 		/// Getter for the static accounts map. Accesses private static map variable.
 		/// </summary>
 		/// <returns>Accounts map</returns>
-		std::map<int, std::list<Account>>& get_accounts_map();
+		std::map<int, Account>& get_accounts_map();
 
 		/// <summary>
 		/// Constructor used to initialize the account ID and account balance.
