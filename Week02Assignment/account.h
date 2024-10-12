@@ -4,6 +4,8 @@
 #include <ostream>
 #include <map>
 #include <list>
+#include <algorithm>
+#include <numeric>
 
 /// <summary>
 /// Class used to create an account object.
@@ -44,6 +46,24 @@ class Account {
 		/// <param name="id">Account ID</param>
 		/// <returns>An iterator to the account</returns>
 		std::map<int, Account>::iterator find_account_iter(int id);
+
+		/// <summary>
+		/// Removes an account from the static accounts map.
+		/// </summary>
+		/// <param name="account_id">Account ID</param>
+		void remove_accounts(int account_id);
+
+		/// <summary>
+		/// Uses accumulate to get the total deposits from all accounts.
+		/// </summary>
+		/// <returns>All deposits added together, a float.</returns>
+		float get_total_deposits() const;
+
+		/// <summary>
+		/// Applies a dividend to all accounts
+		/// </summary>
+		/// <param name="percentage">Percentage of dividend to apply</param>
+		void apply_dividends(float percentage);
 
 		/// <summary>
 		/// Finds an account by account ID.
@@ -128,6 +148,8 @@ class Account {
 		/// <param name="withdrawal">Amount to withdraw</param>
 		/// <returns>A reference to the object as *this</returns>
 		Account& operator-=(float withdrawal);
+
+		Account& operator*=(float percentage);
 
 		/// <summary>
 		/// Returns the account information by overloading the << operator.

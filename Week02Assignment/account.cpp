@@ -3,6 +3,10 @@
 #include <iostream>
 #include <map>
 #include <list>
+#include <algorithm>
+#include <numeric>
+#include <memory>
+#include <alg.h>
 
 //Static variables are initialized here.
 int Account::next_id = 1;
@@ -17,6 +21,38 @@ Account::Account() : account_id(-1), account_balance(0.0f) {
 
 
 //Methods begin.
+
+//I tried using std::transform here for a while, but it was giving me a lot of trouble. I ended up using std::for_each instead.
+//I kept getting a binary '=': no operator found which takes a right-hand operand of type '_T1' error.
+void Account::apply_dividends(float percentage) {
+	std::for_each(accounts.begin(), accounts.end(),
+		[percentage](auto& pair) {
+			// Modify the account balance directly
+			Account& account = pair.second; // Get reference to Account
+			float new_balance = account.get_account_balance();
+			new_balance *= (1 + percentage / 100);
+			account.set_account_balance(new_balance); // Update balance
+		});
+}
+
+float Account::get_total_deposits() const {
+	return std::accumulate(accounts.begin(), accounts.end(), 0.0f, [](float sum, const auto& pair) {
+		return sum + pair.second.get_account_balance();
+		});
+}
+
+//Needs to use Remove_if
+void Account::remove_accounts(int account_id) {
+	auto iter = accounts.find(account_id);
+	if (iter != accounts.end()) {
+		accounts.erase(iter);
+		std::cout << "Account with ID " << account_id << " has been removed.\n" << std::endl;
+	}
+	else {
+		std::cout << "Account with ID " << account_id << " was not found.\n" << std::endl;
+	}
+}
+
 std::map<int, Account>::iterator Account::find_account_iter(int id) {
 	return accounts.find(id);
 }
@@ -42,12 +78,12 @@ void Account::get_accounts()const {
 		return;
 	}
 
-	for (const auto& pair : accounts) {
+	std::for_each(accounts.begin(), accounts.end(), [](const auto& pair) {
 		const int& account_id = pair.first;
 		const Account& account = pair.second;
 
 		std::cout << "Account ID: " << account_id << " | Account Name: " << account.account_name << " | Account Balance: $" << account.account_balance << std::endl;
-	}
+		});
 	std::cout << "\n";
 }
 
@@ -97,6 +133,11 @@ Account& Account::operator+= (float deposit) {
 
 Account& Account::operator-= (float withdrawal) {
 	account_balance -= withdrawal;
+	return *this;
+}
+
+Account& Account::operator*=(float percentage) {
+	account_balance *= (1 + percentage / 100.0f);
 	return *this;
 }
 

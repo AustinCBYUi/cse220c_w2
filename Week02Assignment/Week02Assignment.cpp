@@ -19,6 +19,9 @@ int main()
 		std::cout << "3. Deposit\n";
 		std::cout << "4. Withdraw\n";
 		std::cout << "5. View All Accounts\n"; //Added this option to view all accounts.
+		std::cout << "6. Remove Account\n"; //Added this option to remove an account.
+		std::cout << "7. Get All Deposits\n";
+		std::cout << "8. Apply Dividends\n";
 		std::cout << "Enter your choice: ";
 		std::cin >> user_input;
 		std::cout << "\n"; //Line clear
@@ -85,6 +88,28 @@ int main()
 			account.get_accounts();
 			break;
 		}
+		case 6: {
+			int account_id;
+			std::cout << "\nEnter an Account ID to remove: ";
+			std::cin >> account_id;
+
+			Account acc;
+			acc.remove_accounts(account_id);
+			break;
+		}
+		case 7: {
+			Account acc;
+			std::cout << "Total Deposits in All Accounts: $" << acc.get_total_deposits() << "\n" << std::endl;
+			break;
+		}
+		case 8: {
+			float percentage;
+			std::cout << "Enter the percentage of dividends to apply: ";
+			std::cin >> percentage;
+			account.apply_dividends(percentage);
+			break;
+		}
+
 		//End of switch statement
 		}
 	}
