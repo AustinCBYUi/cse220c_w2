@@ -1,0 +1,18 @@
+#ifndef CONTACT_HPP
+#define CONTACT_HPP
+
+#include <string>
+
+class Contact {
+private:
+	std::string street_address;
+	std::string city;
+	std::string state;
+	std::string zip_code;
+	std::string phone_number;
+public:
+	Contact() : street_address(""), city(""), state(""), zip_code(""), phone_number("") {};
+	void set_contact_info();
+	void get_contact_info()const;
+};
+#endif

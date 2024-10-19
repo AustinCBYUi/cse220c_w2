@@ -6,6 +6,7 @@
 #include <list>
 #include <algorithm>
 #include <numeric>
+#include <IContact.h>
 
 /// <summary>
 /// Class used to create an account object.
@@ -38,8 +39,13 @@ class Account {
 		/// </summary>
 		float account_balance;
 
+		std::shared_ptr<Contact> contact_info;
+
 
 	public:
+		void add_contact_info();
+		void display_contact_info() const;
+
 		/// <summary>
 		/// Finds an account by account ID and returns an iterator to the account.
 		/// </summary>

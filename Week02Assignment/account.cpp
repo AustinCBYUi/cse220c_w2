@@ -1,4 +1,5 @@
 #include "account.h"
+#include "contact.h"
 #include <string>
 #include <iostream>
 #include <map>
@@ -15,12 +16,29 @@ std::map<int, Account> Account::accounts;
 
 //The constructor is used to initialize the account ID and account balance.
 Account::Account() : account_id(-1), account_balance(0.0f) {
-	account_name = "";
+	account_name = "", contact_info = nullptr;
 }
 
 
 
 //Methods begin.
+
+void Account::add_contact_info() {
+	if (contact_info == nullptr) {
+		contact_info = std::make_shared<Contact>();
+	}
+	contact_info->set_contact_info();
+}
+
+void Account::display_contact_info() const {
+	std::cout << "Contact Information:\n";
+	if (contact_info != nullptr) {
+		contact_info->get_contact_info();
+	}
+	else {
+		std::cout << "No contact information available.\n" << std::endl;
+	}
+}
 
 //I tried using std::transform here for a while, but it was giving me a lot of trouble. I ended up using std::for_each instead.
 //I kept getting a binary '=': no operator found which takes a right-hand operand of type '_T1' error.

@@ -3,6 +3,23 @@
 
 #include "account.h"
 #include <iostream>
+#include <vector>
+
+void attach_contact_info_to_account(Account acc) {
+	int id;
+	std::cout << "Enter account ID to attach contact info: \n";
+	std::cin >> id;
+	std::cin.ignore();
+
+	auto it = acc.find_account_iter(id);
+	if (it != acc.get_accounts_map().end()) {
+		it->second.add_contact_info();
+		std::cout << "Contact info added to account.\n\n" << std::endl;
+	}
+	else {
+		std::cout << "Account not found.\n";
+	}
+}
 
 int main()
 {
@@ -10,6 +27,7 @@ int main()
 	int user_input;
 	bool quit = false;
 	Account account;
+	static std::map<int, Account> accounts;
 
 	while (!quit) {
 		std::cout << "Account Menu:\n";
@@ -22,6 +40,7 @@ int main()
 		std::cout << "6. Remove Account\n"; //Added this option to remove an account.
 		std::cout << "7. Get All Deposits\n";
 		std::cout << "8. Apply Dividends\n";
+		std::cout << "9. Add contact information to an account\n";
 		std::cout << "Enter your choice: ";
 		std::cin >> user_input;
 		std::cout << "\n"; //Line clear
@@ -39,10 +58,17 @@ int main()
 			break;
 		}
 		case 2: {
+			Account acc;
 			int account_id;
 			std::cout << "\nEnter the account ID: ";
 			std::cin >> account_id;
 			account.find_account(account_id);
+			
+			auto iter = acc.find_account_iter(account_id);
+			if (iter != acc.get_accounts_map().end()) {
+				Account& account = iter->second;
+				account.display_contact_info();
+			}
 			break;
 		}
 		case 3: {
@@ -109,6 +135,11 @@ int main()
 			account.apply_dividends(percentage);
 			break;
 		}
+		case 9: {
+			Account acc;
+			attach_contact_info_to_account(acc);
+			break;
+		}
 
 		//End of switch statement
 		}
@@ -116,6 +147,7 @@ int main()
 
 	return 0;
 }
+
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu
